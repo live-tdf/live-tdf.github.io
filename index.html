@@ -1,2 +1,41 @@
-<h1>📺 Bienvenue sur Tour de France Live</h1>
-<iframe src="https://www.france.tv/france-2/direct.html" width="800" height="450"></iframe>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Regarde le Tour de France</title>
+  <script src="https://cdn.jsdelivr.net/npm/@discordjs/social-sdk@latest/dist/social-sdk.min.js"></script>
+</head>
+<body>
+  <h1>Regarde le Tour de France</h1>
+  <button id="connect-btn">Se connecter à Discord</button>
+  <p id="status"></p>
+
+  <script>
+    const clientId = 'TON_CLIENT_ID_ICI'; // Remplace par ton Client ID Discord
+
+    const discord = new window.DiscordSocialSDK.DiscordSocialSDK({ clientId });
+
+    document.getElementById('connect-btn').onclick = async () => {
+      try {
+        const user = await discord.login();
+        document.getElementById('status').innerText = `Connecté en tant que ${user.username}`;
+
+        await discord.setActivity({
+          state: 'Étape 12 : Auch → Hautacam',
+          details: 'Sur France•tv',
+          largeImageKey: 'tdf',
+          largeImageText: 'Tour de France 2025 🚴',
+          buttons: [
+            { label: 'Regarder en direct', url: 'https://www.france.tv/france-2/direct/' }
+          ]
+        });
+
+        alert(`Présence Discord mise à jour pour ${user.username} !`);
+      } catch (e) {
+        console.error(e);
+        alert('Erreur lors de la connexion Discord');
+      }
+    };
+  </script>
+</body>
+</html>
